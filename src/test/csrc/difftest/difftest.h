@@ -78,7 +78,6 @@ typedef struct {
 
 typedef struct {
   uint64_t gpr[32];
-  uint64_t fpr[32];
 } arch_reg_state_t;
 
 typedef struct __attribute__((packed)) {
