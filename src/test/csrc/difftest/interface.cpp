@@ -121,14 +121,6 @@ INTERFACE_DM_STATE {
   packet->dscratch1 = dscratch1;
 }
 
-INTERFACE_INT_WRITEBACK {
-  RETURN_NO_NULL
-  auto packet = difftest[coreid]->get_physical_reg_state();
-  if (valid) {
-    packet->gpr[dest] = data;
-  }
-}
-
 INTERFACE_INT_REG_STATE {
   RETURN_NO_NULL
   auto packet = difftest[coreid]->get_arch_reg_state();
@@ -166,80 +158,6 @@ INTERFACE_INT_REG_STATE {
   packet->gpr[31] = gpr_31;
 }
 
-INTERFACE_SBUFFER_EVENT {
-  RETURN_NO_NULL
-  auto packet = difftest[coreid]->get_sbuffer_state(index);
-  packet->resp = sbufferResp;
-  if (packet->resp) {
-    packet->addr = sbufferAddr;
-    packet->data[0] = sbufferData_0;
-    packet->data[1] = sbufferData_1;
-    packet->data[2] = sbufferData_2;
-    packet->data[3] = sbufferData_3;
-    packet->data[4] = sbufferData_4;
-    packet->data[5] = sbufferData_5;
-    packet->data[6] = sbufferData_6;
-    packet->data[7] = sbufferData_7;
-    packet->data[8] = sbufferData_8;
-    packet->data[9] = sbufferData_9;
-    packet->data[10] = sbufferData_10;
-    packet->data[11] = sbufferData_11;
-    packet->data[12] = sbufferData_12;
-    packet->data[13] = sbufferData_13;
-    packet->data[14] = sbufferData_14;
-    packet->data[15] = sbufferData_15;
-    packet->data[16] = sbufferData_16;
-    packet->data[17] = sbufferData_17;
-    packet->data[18] = sbufferData_18;
-    packet->data[19] = sbufferData_19;
-    packet->data[20] = sbufferData_20;
-    packet->data[21] = sbufferData_21;
-    packet->data[22] = sbufferData_22;
-    packet->data[23] = sbufferData_23;
-    packet->data[24] = sbufferData_24;
-    packet->data[25] = sbufferData_25;
-    packet->data[26] = sbufferData_26;
-    packet->data[27] = sbufferData_27;
-    packet->data[28] = sbufferData_28;
-    packet->data[29] = sbufferData_29;
-    packet->data[30] = sbufferData_30;
-    packet->data[31] = sbufferData_31;
-    packet->data[32] = sbufferData_32;
-    packet->data[33] = sbufferData_33;
-    packet->data[34] = sbufferData_34;
-    packet->data[35] = sbufferData_35;
-    packet->data[36] = sbufferData_36;
-    packet->data[37] = sbufferData_37;
-    packet->data[38] = sbufferData_38;
-    packet->data[39] = sbufferData_39;
-    packet->data[40] = sbufferData_40;
-    packet->data[41] = sbufferData_41;
-    packet->data[42] = sbufferData_42;
-    packet->data[43] = sbufferData_43;
-    packet->data[44] = sbufferData_44;
-    packet->data[45] = sbufferData_45;
-    packet->data[46] = sbufferData_46;
-    packet->data[47] = sbufferData_47;
-    packet->data[48] = sbufferData_48;
-    packet->data[49] = sbufferData_49;
-    packet->data[50] = sbufferData_50;
-    packet->data[51] = sbufferData_51;
-    packet->data[52] = sbufferData_52;
-    packet->data[53] = sbufferData_53;
-    packet->data[54] = sbufferData_54;
-    packet->data[55] = sbufferData_55;
-    packet->data[56] = sbufferData_56;
-    packet->data[57] = sbufferData_57;
-    packet->data[58] = sbufferData_58;
-    packet->data[59] = sbufferData_59;
-    packet->data[60] = sbufferData_60;
-    packet->data[61] = sbufferData_61;
-    packet->data[62] = sbufferData_62;
-    packet->data[63] = sbufferData_63;
-    packet->mask = sbufferMask;
-  }
-}
-
 INTERFACE_STORE_EVENT {
   RETURN_NO_NULL
   auto packet = difftest[coreid]->get_store_event(index);
@@ -248,30 +166,6 @@ INTERFACE_STORE_EVENT {
     packet->addr = storeAddr;
     packet->data = storeData;
     packet->mask = storeMask;
-  }
-}
-
-INTERFACE_LOAD_EVENT {
-  RETURN_NO_NULL
-  auto packet = difftest[coreid]->get_load_event(index);
-  packet->valid = valid;
-  if (packet->valid) {
-    packet->paddr = paddr;
-    packet->opType = opType;
-    packet->fuType = fuType;
-  }
-}
-
-INTERFACE_ATOMIC_EVENT {
-  RETURN_NO_NULL
-  auto packet = difftest[coreid]->get_atomic_event();
-  packet->resp = resp;
-  if (packet->resp) {
-    packet->addr = addr;
-    packet->data = data;
-    packet->mask = mask;
-    packet->fuop = fuop;
-    packet->out  = out;
   }
 }
 
@@ -286,75 +180,4 @@ INTERFACE_PTW_EVENT {
     packet->data[2] = data_2;
     packet->data[3] = data_3;
   }
-}
-
-INTERFACE_REFILL_EVENT {
-  RETURN_NO_NULL
-  // 0 for icache and 1 for dcache
-  auto packet = difftest[coreid]->get_refill_event(cacheid);
-  packet->valid = valid;
-  if (packet->valid) {
-   packet->addr = addr;
-   packet->data[0] = data_0;
-   packet->data[1] = data_1;
-   packet->data[2] = data_2;
-   packet->data[3] = data_3;
-   packet->data[4] = data_4;
-   packet->data[5] = data_5;
-   packet->data[6] = data_6;
-   packet->data[7] = data_7;
-  }
-}
-
-INTERFACE_LR_SC_EVENT {
-  RETURN_NO_NULL
-  auto packet = difftest[coreid]->get_lr_sc_event();
-  if (!packet->valid && valid) {
-    packet->valid = valid;
-    packet->success = success;
-  }
-}
-
-INTERFACE_RUNAHEAD_EVENT {
-  if (runahead == NULL) return;
-  auto packet = difftest[coreid]->get_runahead_event(index);
-  packet->valid = valid;
-  if (packet->valid) {
-    packet->branch = branch;
-    packet->may_replay = may_replay;
-    packet->checkpoint_id = checkpoint_id; // a unique branch id
-    packet->pc = pc;
-  }
-}
-
-INTERFACE_RUNAHEAD_COMMIT_EVENT {
-  if (runahead == NULL) return;
-  auto packet = difftest[coreid]->get_runahead_commit_event(index);
-  packet->valid = valid;
-  if (packet->valid) {
-    packet->pc = pc; // for debug only
-  }
-}
-
-INTERFACE_RUNAHEAD_REDIRECT_EVENT {
-  if (runahead == NULL) return;
-  auto packet = difftest[coreid]->get_runahead_redirect_event();
-  packet->valid = valid;
-  if (packet->valid) {
-    packet->pc = pc;
-    packet->target_pc = target_pc;
-    packet->checkpoint_id = checkpoint_id;
-  }
-}
-
-INTERFACE_RUNAHEAD_MEMDEP_PRED {
-  if (runahead == NULL) return;
-  auto packet = difftest[coreid]->get_runahead_memdep_pred(index);
-  packet->valid = valid;
-  if (packet->valid) {
-    packet->is_load = is_load;
-    packet->need_wait = need_wait;
-    packet->pc = pc;
-  }
-  *oracle_vaddr = packet->oracle_vaddr;
 }

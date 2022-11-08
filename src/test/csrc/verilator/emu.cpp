@@ -604,7 +604,7 @@ void Emulator::display_trapinfo() {
   for (int i = 0; i < NUM_CORES; i++) {
     printf("Core %d: ", i);
     auto trap = difftest[i]->get_trap_event();
-    uint64_t pc = trap->pc;
+    uint32_t pc = trap->pc;
     uint64_t instrCnt = trap->instrCnt;
     uint64_t cycleCnt = trap->cycleCnt;
 
@@ -663,7 +663,7 @@ void Emulator::snapshot_save(const char *filename) {
 
   auto proxy = diff->proxy;
 
-  uint64_t ref_r[DIFFTEST_NR_REG];
+  uint32_t ref_r[DIFFTEST_NR_REG];
   proxy->regcpy(&ref_r, REF_TO_DUT);
   stream.unbuf_write(ref_r, sizeof(ref_r));
 
@@ -676,7 +676,7 @@ void Emulator::snapshot_save(const char *filename) {
   proxy->uarchstatus_cpy(&sync_mastate, REF_TO_DUT);
   stream.unbuf_write(&sync_mastate, sizeof(struct SyncState));
 
-  uint64_t csr_buf[4096];
+  uint32_t csr_buf[4096];
   proxy->csrcpy(csr_buf, REF_TO_DIFFTEST);
   stream.unbuf_write(&csr_buf, sizeof(csr_buf));
 
@@ -706,7 +706,7 @@ void Emulator::snapshot_load(const char *filename) {
 
   auto proxy = diff->proxy;
 
-  uint64_t ref_r[DIFFTEST_NR_REG];
+  uint32_t ref_r[DIFFTEST_NR_REG];
   stream.read(ref_r, sizeof(ref_r));
   proxy->regcpy(&ref_r, DUT_TO_REF);
 
@@ -719,7 +719,7 @@ void Emulator::snapshot_load(const char *filename) {
   stream.read(&sync_mastate, sizeof(struct SyncState));
   proxy->uarchstatus_cpy(&sync_mastate, DUT_TO_REF);
 
-  uint64_t csr_buf[4096];
+  uint32_t csr_buf[4096];
   stream.read(&csr_buf, sizeof(csr_buf));
   proxy->csrcpy(csr_buf, DIFFTEST_TO_REF);
 

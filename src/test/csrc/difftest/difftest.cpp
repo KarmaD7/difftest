@@ -236,7 +236,7 @@ void Difftest::do_instr_commit(int i) {
     sprintf(inst_str, "%08x", commit_instr);
     spike_dasm(dasm_result, inst_str);
     printf("s0 is %016lx ", dut.regs.gpr[8]);
-    printf("pc is %lx %s\n", commit_pc, dasm_result);
+    printf("pc is %x %s\n", commit_pc, dasm_result);
   }
 #endif
 
@@ -305,45 +305,12 @@ int Difftest::do_store_check() {
     if (proxy->store_commit(&addr, &data, &mask)) {
       display();
       printf("Mismatch for store commits %d: \n", i);
-      printf("  REF commits addr 0x%lx, data 0x%lx, mask 0x%x\n", addr, data, mask);
-      printf("  DUT commits addr 0x%lx, data 0x%lx, mask 0x%x\n",
+      printf("  REF commits addr 0x%x, data 0x%x, mask 0x%x\n", addr, data, mask);
+      printf("  DUT commits addr 0x%x, data 0x%x, mask 0x%x\n",
         dut.store[i].addr, dut.store[i].data, dut.store[i].mask);
       return 1;
     }
     dut.store[i].valid = 0;
-  }
-  return 0;
-}
-
-int Difftest::do_refill_check(int cacheid) {
-  static uint64_t last_valid_addr = 0;
-  char buf[512];
-  refill_event_t dut_refill = cacheid == DCACHEID ? dut.d_refill : dut.i_refill ;    
-  const char* name = cacheid == DCACHEID ? "DCache" : "ICache";
-  dut_refill.addr = dut_refill.addr - dut_refill.addr % 64;
-  if (dut_refill.valid == 1 && dut_refill.addr != last_valid_addr) {
-    last_valid_addr = dut_refill.addr;
-    if(!in_pmem(dut_refill.addr)){
-      // speculated illegal mem access should be ignored
-      return 0;
-    }
-    for (int i = 0; i < 8; i++) {
-      read_goldenmem(dut_refill.addr + i*8, &buf, 8);
-      if (dut_refill.data[i] != *((uint64_t*)buf)) {
-        printf("%s Refill test failed!\n",name);
-        printf("addr: %lx\nGold: ", dut_refill.addr);
-        for (int j = 0; j < 8; j++) {
-          read_goldenmem(dut_refill.addr + j*8, &buf, 8);
-          printf("%016lx", *((uint64_t*)buf));
-        }
-        printf("\nCore: ");
-        for (int j = 0; j < 8; j++) {
-          printf("%016lx", dut_refill.data[j]);
-        }
-        printf("\n");
-        return 1;
-      }
-    }
   }
   return 0;
 }
@@ -376,19 +343,19 @@ void dumpGoldenMem(char* banner, uint64_t addr, uint64_t time) {
 int Difftest::do_golden_memory_update() {
   // Update Golden Memory info
 
-  if (ticks == 100) {
-    dumpGoldenMem("Init", track_instr, ticks);
-  }
+  // if (ticks == 100) {
+  //   dumpGoldenMem("Init", track_instr, ticks);
+  // }
 
-  for(int i = 0; i < DIFFTEST_SBUFFER_RESP_WIDTH; i++){
-    if (dut.sbuffer[i].resp) {
-      dut.sbuffer[i].resp = 0;
-      update_goldenmem(dut.sbuffer[i].addr, dut.sbuffer[i].data, dut.sbuffer[i].mask, 64);
-      if (dut.sbuffer[i].addr == track_instr) {
-        dumpGoldenMem("Store", track_instr, ticks);
-      }
-    }
-  }
+  // for(int i = 0; i < DIFFTEST_SBUFFER_RESP_WIDTH; i++){
+  //   if (dut.sbuffer[i].resp) {
+  //     dut.sbuffer[i].resp = 0;
+  //     update_goldenmem(dut.sbuffer[i].addr, dut.sbuffer[i].data, dut.sbuffer[i].mask, 64);
+  //     if (dut.sbuffer[i].addr == track_instr) {
+  //       dumpGoldenMem("Store", track_instr, ticks);
+  //     }
+  //   }
+  // }
   return 0;
 }
 #endif
@@ -398,8 +365,8 @@ int Difftest::check_timeout() {
   if (!has_commit && ticks > last_commit + firstCommit_limit) {
     eprintf("No instruction commits for %lu cycles of core %d. Please check the first instruction.\n",
       firstCommit_limit, id);
-    eprintf("Note: The first instruction may lie in 0x%lx which may executes and commits after 500 cycles.\n", FIRST_INST_ADDRESS);
-    eprintf("   Or the first instruction may lie in 0x%lx which may executes and commits after 2000 cycles.\n", PMEM_BASE);
+    eprintf("Note: The first instruction may lie in 0x%x which may executes and commits after 500 cycles.\n", FIRST_INST_ADDRESS);
+    eprintf("   Or the first instruction may lie in 0x%x which may executes and commits after 2000 cycles.\n", PMEM_BASE);
     display();
     return 1;
   }
@@ -435,16 +402,9 @@ void Difftest::clear_step() {
   for (int i = 0; i < DIFFTEST_COMMIT_WIDTH; i++) {
     dut.commit[i].valid = 0;
   }
-  for (int i = 0; i < DIFFTEST_SBUFFER_RESP_WIDTH; i++) {
-    dut.sbuffer[i].resp = 0;
-  }
   for (int i = 0; i < DIFFTEST_STORE_WIDTH; i++) {
     dut.store[i].valid = 0;
   }
-  for (int i = 0; i < DIFFTEST_COMMIT_WIDTH; i++) {
-    dut.load[i].valid = 0;
-  }
-  dut.atomic.resp = 0;
   dut.ptw.resp = 0;
 }
 

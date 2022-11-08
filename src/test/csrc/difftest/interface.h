@@ -201,80 +201,6 @@ extern "C" int v_difftest_step();
     DPIC_ARG_LONG gpr_31                 \
   )
 
-// v_difftest_SbufferEvent
-#define INTERFACE_SBUFFER_EVENT          \
-  DIFFTEST_DPIC_FUNC_DECL(SbufferEvent) ( \
-    DPIC_ARG_BYTE coreid,                \
-    DPIC_ARG_BYTE index,                 \
-    DPIC_ARG_BIT  sbufferResp,           \
-    DPIC_ARG_LONG sbufferAddr,           \
-    DPIC_ARG_BYTE sbufferData_0,         \
-    DPIC_ARG_BYTE sbufferData_1,         \
-    DPIC_ARG_BYTE sbufferData_2,         \
-    DPIC_ARG_BYTE sbufferData_3,         \
-    DPIC_ARG_BYTE sbufferData_4,         \
-    DPIC_ARG_BYTE sbufferData_5,         \
-    DPIC_ARG_BYTE sbufferData_6,         \
-    DPIC_ARG_BYTE sbufferData_7,         \
-    DPIC_ARG_BYTE sbufferData_8,         \
-    DPIC_ARG_BYTE sbufferData_9,         \
-    DPIC_ARG_BYTE sbufferData_10,        \
-    DPIC_ARG_BYTE sbufferData_11,        \
-    DPIC_ARG_BYTE sbufferData_12,        \
-    DPIC_ARG_BYTE sbufferData_13,        \
-    DPIC_ARG_BYTE sbufferData_14,        \
-    DPIC_ARG_BYTE sbufferData_15,        \
-    DPIC_ARG_BYTE sbufferData_16,        \
-    DPIC_ARG_BYTE sbufferData_17,        \
-    DPIC_ARG_BYTE sbufferData_18,        \
-    DPIC_ARG_BYTE sbufferData_19,        \
-    DPIC_ARG_BYTE sbufferData_20,        \
-    DPIC_ARG_BYTE sbufferData_21,        \
-    DPIC_ARG_BYTE sbufferData_22,        \
-    DPIC_ARG_BYTE sbufferData_23,        \
-    DPIC_ARG_BYTE sbufferData_24,        \
-    DPIC_ARG_BYTE sbufferData_25,        \
-    DPIC_ARG_BYTE sbufferData_26,        \
-    DPIC_ARG_BYTE sbufferData_27,        \
-    DPIC_ARG_BYTE sbufferData_28,        \
-    DPIC_ARG_BYTE sbufferData_29,        \
-    DPIC_ARG_BYTE sbufferData_30,        \
-    DPIC_ARG_BYTE sbufferData_31,        \
-    DPIC_ARG_BYTE sbufferData_32,        \
-    DPIC_ARG_BYTE sbufferData_33,        \
-    DPIC_ARG_BYTE sbufferData_34,        \
-    DPIC_ARG_BYTE sbufferData_35,        \
-    DPIC_ARG_BYTE sbufferData_36,        \
-    DPIC_ARG_BYTE sbufferData_37,        \
-    DPIC_ARG_BYTE sbufferData_38,        \
-    DPIC_ARG_BYTE sbufferData_39,        \
-    DPIC_ARG_BYTE sbufferData_40,        \
-    DPIC_ARG_BYTE sbufferData_41,        \
-    DPIC_ARG_BYTE sbufferData_42,        \
-    DPIC_ARG_BYTE sbufferData_43,        \
-    DPIC_ARG_BYTE sbufferData_44,        \
-    DPIC_ARG_BYTE sbufferData_45,        \
-    DPIC_ARG_BYTE sbufferData_46,        \
-    DPIC_ARG_BYTE sbufferData_47,        \
-    DPIC_ARG_BYTE sbufferData_48,        \
-    DPIC_ARG_BYTE sbufferData_49,        \
-    DPIC_ARG_BYTE sbufferData_50,        \
-    DPIC_ARG_BYTE sbufferData_51,        \
-    DPIC_ARG_BYTE sbufferData_52,        \
-    DPIC_ARG_BYTE sbufferData_53,        \
-    DPIC_ARG_BYTE sbufferData_54,        \
-    DPIC_ARG_BYTE sbufferData_55,        \
-    DPIC_ARG_BYTE sbufferData_56,        \
-    DPIC_ARG_BYTE sbufferData_57,        \
-    DPIC_ARG_BYTE sbufferData_58,        \
-    DPIC_ARG_BYTE sbufferData_59,        \
-    DPIC_ARG_BYTE sbufferData_60,        \
-    DPIC_ARG_BYTE sbufferData_61,        \
-    DPIC_ARG_BYTE sbufferData_62,        \
-    DPIC_ARG_BYTE sbufferData_63,        \
-    DPIC_ARG_LONG sbufferMask            \
-  )
-
 // v_difftest_StoreEvent
 #define INTERFACE_STORE_EVENT            \
   DIFFTEST_DPIC_FUNC_DECL(StoreEvent) (  \
@@ -284,29 +210,6 @@ extern "C" int v_difftest_step();
     DPIC_ARG_LONG storeAddr,             \
     DPIC_ARG_LONG storeData,             \
     DPIC_ARG_BYTE storeMask              \
-  )
-
-// v_difftest_LoadEvent
-#define INTERFACE_LOAD_EVENT             \
-  DIFFTEST_DPIC_FUNC_DECL(LoadEvent) (   \
-    DPIC_ARG_BYTE coreid,                \
-    DPIC_ARG_BYTE index,                 \
-    DPIC_ARG_BIT  valid,                 \
-    DPIC_ARG_LONG paddr,                 \
-    DPIC_ARG_BYTE opType,                \
-    DPIC_ARG_BYTE fuType                 \
-  )
-
-// v_difftest_AtomicEvent
-#define INTERFACE_ATOMIC_EVENT           \
-  DIFFTEST_DPIC_FUNC_DECL(AtomicEvent) ( \
-    DPIC_ARG_BYTE coreid,                \
-    DPIC_ARG_BIT  resp,            \
-    DPIC_ARG_LONG addr,            \
-    DPIC_ARG_LONG data,            \
-    DPIC_ARG_BYTE mask,            \
-    DPIC_ARG_BYTE fuop,            \
-    DPIC_ARG_LONG out              \
   )
 
 // v_difftest_PtwEvent
@@ -321,74 +224,6 @@ extern "C" int v_difftest_step();
     DPIC_ARG_LONG data_3                 \
   )
 
-// v_difftest_RefillEvent
-#define INTERFACE_REFILL_EVENT           \
-  DIFFTEST_DPIC_FUNC_DECL(RefillEvent) ( \
-    DPIC_ARG_BYTE coreid,                \
-    DPIC_ARG_BIT  valid,                 \
-    DPIC_ARG_LONG addr,                  \
-    DPIC_ARG_LONG data_0,                \
-    DPIC_ARG_LONG data_1,                \
-    DPIC_ARG_LONG data_2,                \
-    DPIC_ARG_LONG data_3,                \
-    DPIC_ARG_LONG data_4,                \
-    DPIC_ARG_LONG data_5,                \
-    DPIC_ARG_LONG data_6,                \
-    DPIC_ARG_LONG data_7,                \
-    DPIC_ARG_BIT  cacheid                \
-  )
-
-// v_difftest_RefillEvent
-#define INTERFACE_LR_SC_EVENT            \
-  DIFFTEST_DPIC_FUNC_DECL(LrScEvent) (   \
-    DPIC_ARG_BYTE coreid,                \
-    DPIC_ARG_BIT  valid,                 \
-    DPIC_ARG_BIT  success                \
-  )
-
-// v_difftest_RunaheadEvent
-#define INTERFACE_RUNAHEAD_EVENT           \
-  DIFFTEST_DPIC_FUNC_DECL(RunaheadEvent) ( \
-    DPIC_ARG_BYTE coreid,                  \
-    DPIC_ARG_BYTE index,                   \
-    DPIC_ARG_BIT  valid,                   \
-    DPIC_ARG_BIT  branch,                  \
-    DPIC_ARG_BIT  may_replay,              \
-    DPIC_ARG_LONG pc,                      \
-    DPIC_ARG_LONG checkpoint_id            \
-  )
-
-// v_difftest_RunaheadCommitEvent
-#define INTERFACE_RUNAHEAD_COMMIT_EVENT          \
-  DIFFTEST_DPIC_FUNC_DECL(RunaheadCommitEvent) ( \
-    DPIC_ARG_BYTE coreid,                        \
-    DPIC_ARG_BYTE index,                         \
-    DPIC_ARG_BIT  valid,                         \
-    DPIC_ARG_LONG pc                             \
-  )
-
-// v_difftest_RunaheadRedirectEvent
-#define INTERFACE_RUNAHEAD_REDIRECT_EVENT          \
-  DIFFTEST_DPIC_FUNC_DECL(RunaheadRedirectEvent) ( \
-    DPIC_ARG_BYTE coreid,                          \
-    DPIC_ARG_BIT  valid,                           \
-    DPIC_ARG_LONG pc,                              \
-    DPIC_ARG_LONG target_pc,                       \
-    DPIC_ARG_LONG checkpoint_id                    \
-  )
-
-// v_difftest_RunaheadMemdepPred
-#define INTERFACE_RUNAHEAD_MEMDEP_PRED             \
-  DIFFTEST_DPIC_FUNC_DECL(RunaheadMemdepPred) (    \
-    DPIC_ARG_BYTE coreid,                          \
-    DPIC_ARG_BYTE index,                           \
-    DPIC_ARG_BIT  valid,                           \
-    DPIC_ARG_BIT  is_load,                         \
-    DPIC_ARG_BIT  need_wait,                       \
-    DPIC_ARG_LONG pc,                              \
-    uint64_t* oracle_vaddr                         \
-  )
-
 INTERFACE_BASIC_INSTR_COMMIT;
 INTERFACE_ARCH_EVENT;
 INTERFACE_INSTR_COMMIT;
@@ -397,18 +232,7 @@ INTERFACE_TRAP_EVENT;
 INTERFACE_CSR_STATE;
 INTERFACE_INT_WRITEBACK;
 INTERFACE_INT_REG_STATE;
-INTERFACE_FP_WRITEBACK;
-INTERFACE_FP_REG_STATE;
-INTERFACE_SBUFFER_EVENT;
 INTERFACE_STORE_EVENT;
-INTERFACE_LOAD_EVENT;
-INTERFACE_ATOMIC_EVENT;
 INTERFACE_PTW_EVENT;
-INTERFACE_REFILL_EVENT;
-INTERFACE_LR_SC_EVENT;
-INTERFACE_RUNAHEAD_EVENT;
-INTERFACE_RUNAHEAD_COMMIT_EVENT;
-INTERFACE_RUNAHEAD_REDIRECT_EVENT;
-INTERFACE_RUNAHEAD_MEMDEP_PRED;
 
 #endif
