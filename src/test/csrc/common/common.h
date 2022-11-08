@@ -50,9 +50,9 @@ void assert_finish();
 extern int signal_num;
 void sig_handler(int signo);
 
-typedef uint64_t rtlreg_t;
-typedef uint64_t paddr_t;
-typedef uint64_t vaddr_t;
+typedef uint32_t rtlreg_t;
+typedef uint32_t paddr_t;
+typedef uint32_t vaddr_t;
 typedef uint16_t ioaddr_t;
 
 #define Assert(cond, ...) \

@@ -48,7 +48,7 @@ enum { ICACHEID, DCACHEID };
 typedef struct {
   uint8_t  valid = 0;
   uint8_t  code = 0;
-  uint64_t pc = 0;
+  uint32_t pc = 0;
   uint64_t cycleCnt = 0;
   uint64_t instrCnt = 0;
   uint8_t  hasWFI = 0;
@@ -59,13 +59,13 @@ typedef struct {
 typedef struct {
   uint32_t interrupt = 0;
   uint32_t exception = 0;
-  uint64_t exceptionPC = 0;
+  uint32_t exceptionPC = 0;
   uint32_t exceptionInst = 0;
 } arch_event_t;
 
 typedef struct {
   uint8_t  valid = 0;
-  uint64_t pc;
+  uint32_t pc;
   uint32_t inst;
   uint8_t  skip;
   uint8_t  isRVC;
@@ -77,37 +77,37 @@ typedef struct {
 } instr_commit_t;
 
 typedef struct {
-  uint64_t gpr[32];
+  uint32_t gpr[32];
 } arch_reg_state_t;
 
 typedef struct __attribute__((packed)) {
-  uint64_t this_pc;
-  uint64_t mstatus;
-  uint64_t mcause;
-  uint64_t mepc;
-  uint64_t sstatus;
-  uint64_t scause;
-  uint64_t sepc;
-  uint64_t satp;
-  uint64_t mip;
-  uint64_t mie;
-  uint64_t mscratch;
-  uint64_t sscratch;
-  uint64_t mideleg;
-  uint64_t medeleg;
-  uint64_t mtval;
-  uint64_t stval;
-  uint64_t mtvec;
-  uint64_t stvec;
-  uint64_t priviledgeMode;
+  uint32_t this_pc;
+  uint32_t mstatus;
+  uint32_t mcause;
+  uint32_t mepc;
+  uint32_t sstatus;
+  uint32_t scause;
+  uint32_t sepc;
+  uint32_t satp;
+  uint32_t mip;
+  uint32_t mie;
+  uint32_t mscratch;
+  uint32_t sscratch;
+  uint32_t mideleg;
+  uint32_t medeleg;
+  uint32_t mtval;
+  uint32_t stval;
+  uint32_t mtvec;
+  uint32_t stvec;
+  uint32_t priviledgeMode;
 } arch_csr_state_t;
 
 typedef struct __attribute__((packed)) {
-  uint64_t debugMode;
-  uint64_t dcsr;
-  uint64_t dpc;
-  uint64_t dscratch0;
-  uint64_t dscratch1;
+  uint32_t debugMode;
+  uint32_t dcsr;
+  uint32_t dpc;
+  uint32_t dscratch0;
+  uint32_t dscratch1;
 } debug_mode_t;
 
 #ifndef DEBUG_MODE_DIFF
@@ -117,85 +117,17 @@ const int DIFFTEST_NR_REG = (sizeof(arch_reg_state_t) + sizeof(arch_csr_state_t)
 #endif
 
 typedef struct {
-  uint8_t  resp = 0;
-  uint64_t addr;
-  uint8_t  data[64];
-  uint64_t mask;
-} sbuffer_state_t;
-
-typedef struct {
   uint8_t  valid = 0;
-  uint64_t addr;
-  uint64_t data;
+  uint32_t addr;
+  uint32_t data;
   uint8_t  mask;
 } store_event_t;
 
 typedef struct {
-  uint8_t  valid = 0;
-  uint64_t paddr;
-  uint8_t  fuType;
-  uint8_t  opType;
-} load_event_t;
-
-typedef struct {
   uint8_t  resp = 0;
-  uint64_t addr;
-  uint64_t data;
-  uint8_t  mask;
-  uint8_t  fuop;
-  uint64_t out;
-} atomic_event_t;
-
-typedef struct {
-  uint8_t  resp = 0;
-  uint64_t addr;
-  uint64_t data[4];
+  uint32_t addr;
+  uint32_t data[4];
 } ptw_event_t;
-
-typedef struct {
-  uint8_t  valid = 0;
-  uint64_t addr;
-  uint64_t data[8];
-} refill_event_t;
-
-typedef struct {
-  uint8_t valid = 0;
-  uint8_t success;
-} lr_sc_evevnt_t;
-
-typedef struct {
-  uint8_t  valid = 0;
-  uint8_t  branch = 0;
-  uint8_t  may_replay = 0;
-  uint64_t pc;
-  uint64_t checkpoint_id;
-} run_ahead_event_t;
-
-typedef struct {
-  uint8_t  valid = 0;
-  uint8_t  branch = 0;
-  uint64_t pc;
-} run_ahead_commit_event_t;
-
-typedef struct {
-  uint8_t  valid = 0;
-  uint64_t pc;
-  uint64_t target_pc;
-  uint64_t checkpoint_id;
-} run_ahead_redirect_event_t;
-
-typedef struct {
-  uint8_t  valid = 0;
-  uint8_t  is_load;
-  uint8_t  need_wait;
-  uint64_t pc;
-  uint64_t oracle_vaddr;
-} run_ahead_memdep_pred_t;
-
-typedef struct {
-  uint64_t gpr[DIFFTEST_MAX_PRF_SIZE];
-  uint64_t fpr[DIFFTEST_MAX_PRF_SIZE];
-} physical_reg_state_t;
 
 typedef struct {
   trap_event_t      trap;
@@ -204,19 +136,8 @@ typedef struct {
   arch_reg_state_t  regs;
   arch_csr_state_t  csr;
   debug_mode_t      dmregs;
-  sbuffer_state_t   sbuffer[DIFFTEST_SBUFFER_RESP_WIDTH];
   store_event_t     store[DIFFTEST_STORE_WIDTH];
-  load_event_t      load[DIFFTEST_COMMIT_WIDTH];
-  atomic_event_t    atomic;
   ptw_event_t       ptw;
-  refill_event_t    d_refill;
-  refill_event_t    i_refill;
-  lr_sc_evevnt_t    lrsc;
-  run_ahead_event_t runahead[DIFFTEST_RUNAHEAD_WIDTH];
-  run_ahead_commit_event_t runahead_commit[DIFFTEST_RUNAHEAD_WIDTH];
-  run_ahead_redirect_event_t runahead_redirect;
-  run_ahead_memdep_pred_t runahead_memdep_pred[DIFFTEST_RUNAHEAD_WIDTH];
-  physical_reg_state_t pregs;
 } difftest_core_state_t;
 
 enum retire_inst_type {
@@ -228,12 +149,12 @@ enum retire_inst_type {
 class DiffState {
 public:
   DiffState();
-  void record_group(uint64_t pc, uint64_t count) {
+  void record_group(uint32_t pc, uint64_t count) {
     retire_group_pc_queue [retire_group_pointer] = pc;
     retire_group_cnt_queue[retire_group_pointer] = count;
     retire_group_pointer = (retire_group_pointer + 1) % DEBUG_GROUP_TRACE_SIZE;
   };
-  void record_inst(uint64_t pc, uint32_t inst, uint8_t en, uint8_t dest, uint64_t data, bool skip) {
+  void record_inst(uint32_t pc, uint32_t inst, uint8_t en, uint8_t dest, uint32_t data, bool skip) {
     retire_inst_pc_queue   [retire_inst_pointer] = pc;
     retire_inst_inst_queue [retire_inst_pointer] = inst;
     retire_inst_wen_queue  [retire_inst_pointer] = en;
@@ -243,7 +164,7 @@ public:
     retire_inst_type_queue[retire_inst_pointer] = RET_NORMAL;
     retire_inst_pointer = (retire_inst_pointer + 1) % DEBUG_INST_TRACE_SIZE;
   };
-  void record_abnormal_inst(uint64_t pc, uint32_t inst, uint32_t abnormal_type, uint64_t cause) {
+  void record_abnormal_inst(uint32_t pc, uint32_t inst, uint32_t abnormal_type, uint32_t cause) {
     retire_inst_pc_queue   [retire_inst_pointer] = pc;
     retire_inst_inst_queue [retire_inst_pointer] = inst;
     retire_inst_wdata_queue[retire_inst_pointer] = cause; // write cause to data queue to save space
@@ -254,15 +175,15 @@ public:
 
 private:
   int retire_group_pointer = 0;
-  uint64_t retire_group_pc_queue[DEBUG_GROUP_TRACE_SIZE] = {0};
+  uint32_t retire_group_pc_queue[DEBUG_GROUP_TRACE_SIZE] = {0};
   uint32_t retire_group_cnt_queue[DEBUG_GROUP_TRACE_SIZE] = {0};
 
   int retire_inst_pointer = 0;
-  uint64_t retire_inst_pc_queue[DEBUG_INST_TRACE_SIZE] = {0};
+  uint32_t retire_inst_pc_queue[DEBUG_INST_TRACE_SIZE] = {0};
   uint32_t retire_inst_inst_queue[DEBUG_INST_TRACE_SIZE] = {0};
-  uint64_t retire_inst_wen_queue[DEBUG_INST_TRACE_SIZE] = {0};
+  uint32_t retire_inst_wen_queue[DEBUG_INST_TRACE_SIZE] = {0};
   uint32_t retire_inst_wdst_queue[DEBUG_INST_TRACE_SIZE] = {0};
-  uint64_t retire_inst_wdata_queue[DEBUG_INST_TRACE_SIZE] = {0};
+  uint32_t retire_inst_wdata_queue[DEBUG_INST_TRACE_SIZE] = {0};
   uint32_t retire_inst_type_queue[DEBUG_INST_TRACE_SIZE] = {0};
   bool retire_inst_skip_queue[DEBUG_INST_TRACE_SIZE] = {0};
 };
@@ -304,39 +225,11 @@ public:
   inline arch_reg_state_t *get_arch_reg_state() {
     return &(dut.regs);
   }
-  inline sbuffer_state_t *get_sbuffer_state(uint8_t index) {
-    return &(dut.sbuffer[index]);
-  }
   inline store_event_t *get_store_event(uint8_t index) {
     return &(dut.store[index]);
   }
-  inline load_event_t *get_load_event(uint8_t index) {
-    return &(dut.load[index]);
-  }
-  inline atomic_event_t *get_atomic_event() {
-    return &(dut.atomic);
-  }
   inline ptw_event_t *get_ptw_event() {
     return &(dut.ptw);
-  }
-  inline refill_event_t *get_refill_event(bool dcache) {
-    if(dcache) return &(dut.d_refill);
-    return &(dut.i_refill);
-  }
-  inline lr_sc_evevnt_t *get_lr_sc_event() {
-    return &(dut.lrsc);
-  }
-  inline run_ahead_event_t *get_runahead_event(uint8_t index) {
-    return &(dut.runahead[index]);
-  }
-  inline run_ahead_commit_event_t *get_runahead_commit_event(uint8_t index) {
-    return &(dut.runahead_commit[index]);
-  }
-  inline run_ahead_redirect_event_t *get_runahead_redirect_event() {
-    return &(dut.runahead_redirect);
-  }
-  inline run_ahead_memdep_pred_t *get_runahead_memdep_pred(uint8_t index) {
-    return &(dut.runahead_memdep_pred[index]);
   }
   inline difftest_core_state_t *get_dut() {
     return &dut;
@@ -344,21 +237,18 @@ public:
   inline difftest_core_state_t *get_ref() {
     return &ref;
   }
-  inline physical_reg_state_t *get_physical_reg_state() {
-    return &(dut.pregs);
-  }
   inline debug_mode_t *get_debug_state() {
     return &(dut.dmregs);
   }
 
 #ifdef DEBUG_REFILL
-  void save_track_instr(uint64_t instr) {
+  void save_track_instr(uint32_t instr) {
     track_instr = instr;
   }
 #endif
 
 #ifdef DEBUG_MODE_DIFF
-  void debug_mode_copy(uint64_t addr, size_t size, uint32_t data) {
+  void debug_mode_copy(uint32_t addr, size_t size, uint32_t data) {
     proxy->debug_mem_sync(addr, &data, size);
   }
 #endif
@@ -370,17 +260,17 @@ protected:
   int id;
   difftest_core_state_t dut;
   difftest_core_state_t ref;
-  uint64_t *ref_regs_ptr = (uint64_t*)&ref.regs;
-  uint64_t *dut_regs_ptr = (uint64_t*)&dut.regs;
+  uint32_t *ref_regs_ptr = (uint32_t*)&ref.regs;
+  uint32_t *dut_regs_ptr = (uint32_t*)&dut.regs;
 
   bool progress = false;
   uint64_t ticks = 0;
   uint64_t last_commit = 0;
 
-  uint64_t nemu_this_pc;
+  uint32_t nemu_this_pc;
   DiffState *state = NULL;
 #ifdef DEBUG_REFILL
-  uint64_t track_instr = 0;
+  uint32_t track_instr = 0;
 #endif
 
   void update_last_commit() { last_commit = ticks; }
@@ -396,8 +286,8 @@ protected:
   int do_golden_memory_update();
   // inline uint64_t *ref_regs_ptr() { return (uint64_t*)&ref.regs; }
   // inline uint64_t *dut_regs_ptr() { return (uint64_t*)&dut.regs; }
-  inline uint64_t get_commit_data(int i) {
-    uint64_t result = (dut.commit[i].fpwen) ? dut.pregs.fpr[dut.commit[i].wpdest] : dut.pregs.gpr[dut.commit[i].wpdest];
+  inline uint32_t get_commit_data(int i) {
+    uint32_t result = dut.regs.gpr[dut.commit[i].wpdest];
     return result;
   }
   inline bool has_wfi() {

@@ -201,53 +201,6 @@ extern "C" int v_difftest_step();
     DPIC_ARG_LONG gpr_31                 \
   )
 
-// v_difftest_FpWriteback
-#define INTERFACE_FP_WRITEBACK           \
-  DIFFTEST_DPIC_FUNC_DECL(FpWriteback) ( \
-    DPIC_ARG_BYTE coreid,                \
-    DPIC_ARG_BIT  valid,                 \
-    DPIC_ARG_INT  dest,                  \
-    DPIC_ARG_LONG data                   \
-  )
-
-// v_difftest_ArchFpRegState
-#define INTERFACE_FP_REG_STATE           \
-  DIFFTEST_DPIC_FUNC_DECL(ArchFpRegState) ( \
-    DPIC_ARG_BYTE coreid,                \
-    DPIC_ARG_LONG fpr_0,                 \
-    DPIC_ARG_LONG fpr_1,                 \
-    DPIC_ARG_LONG fpr_2,                 \
-    DPIC_ARG_LONG fpr_3,                 \
-    DPIC_ARG_LONG fpr_4,                 \
-    DPIC_ARG_LONG fpr_5,                 \
-    DPIC_ARG_LONG fpr_6,                 \
-    DPIC_ARG_LONG fpr_7,                 \
-    DPIC_ARG_LONG fpr_8,                 \
-    DPIC_ARG_LONG fpr_9,                 \
-    DPIC_ARG_LONG fpr_10,                \
-    DPIC_ARG_LONG fpr_11,                \
-    DPIC_ARG_LONG fpr_12,                \
-    DPIC_ARG_LONG fpr_13,                \
-    DPIC_ARG_LONG fpr_14,                \
-    DPIC_ARG_LONG fpr_15,                \
-    DPIC_ARG_LONG fpr_16,                \
-    DPIC_ARG_LONG fpr_17,                \
-    DPIC_ARG_LONG fpr_18,                \
-    DPIC_ARG_LONG fpr_19,                \
-    DPIC_ARG_LONG fpr_20,                \
-    DPIC_ARG_LONG fpr_21,                \
-    DPIC_ARG_LONG fpr_22,                \
-    DPIC_ARG_LONG fpr_23,                \
-    DPIC_ARG_LONG fpr_24,                \
-    DPIC_ARG_LONG fpr_25,                \
-    DPIC_ARG_LONG fpr_26,                \
-    DPIC_ARG_LONG fpr_27,                \
-    DPIC_ARG_LONG fpr_28,                \
-    DPIC_ARG_LONG fpr_29,                \
-    DPIC_ARG_LONG fpr_30,                \
-    DPIC_ARG_LONG fpr_31                 \
-  )
-
 // v_difftest_SbufferEvent
 #define INTERFACE_SBUFFER_EVENT          \
   DIFFTEST_DPIC_FUNC_DECL(SbufferEvent) ( \
