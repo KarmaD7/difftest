@@ -20,26 +20,26 @@
 #include "common.h"
 
 typedef struct MemInstInfo {
-  uint64_t pc;
-  uint64_t vaddr;
+  uint32_t pc;
+  uint32_t vaddr;
 }MemInstInfo;
 
 class MemdepWatchWindow {
   public:
     void commit_load();
     void commit_store();
-    void commit_load(uint64_t pc);
-    void commit_store(uint64_t pc);
-    void watch_load(uint64_t pc, uint64_t vaddr);
-    void watch_store(uint64_t pc, uint64_t vaddr);
-    bool query_load_store_dep(uint64_t load_pc, uint64_t load_vaddr);
+    void commit_load(uint32_t pc);
+    void commit_store(uint32_t pc);
+    void watch_load(uint32_t pc, uint32_t vaddr);
+    void watch_store(uint32_t pc, uint32_t vaddr);
+    bool query_load_store_dep(uint32_t load_pc, uint32_t load_vaddr);
     void update_pred_matrix(bool dut_result, bool ref_result);
     void print_pred_matrix();
   private:
     std::deque<MemInstInfo> store_inflight;
     std::deque<MemInstInfo> load_inflight;
-    uint64_t total_dependency = 0;
-    uint64_t pred_matrix[2][2] = {};
+    uint32_t total_dependency = 0;
+    uint32_t pred_matrix[2][2] = {};
 };
 
 #endif

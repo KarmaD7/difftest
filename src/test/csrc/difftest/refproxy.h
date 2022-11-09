@@ -29,13 +29,13 @@ public:
   void (*regcpy)(void *dut, bool direction) = NULL;
   void (*csrcpy)(void *dut, bool direction) = NULL;
   void (*uarchstatus_cpy)(void *dut, bool direction) = NULL;
-  int (*store_commit)(uint64_t *saddr, uint64_t *sdata, uint8_t *smask) = NULL;
+  int (*store_commit)(uint32_t *saddr, uint32_t *sdata, uint8_t *smask) = NULL;
   void (*exec)(uint64_t n) = NULL;
   vaddr_t (*guided_exec)(void *disambiguate_para) = NULL;
   void (*update_config)(void *config) = NULL;
-  void (*raise_intr)(uint64_t no) = NULL;
+  void (*raise_intr)(uint32_t no) = NULL;
   void (*isa_reg_display)() = NULL;
-  void (*query)(void *result_buffer, uint64_t type) = NULL;
+  void (*query)(void *result_buffer, uint32_t type) = NULL;
   void (*debug_mem_sync)(paddr_t addr, void *bytes, size_t size) = NULL;
   void (*load_flash_bin)(void *flash_bin, size_t size) = NULL;
   void (*set_ramsize)(size_t size) = NULL;
@@ -59,19 +59,19 @@ private:
 };
 
 struct SyncState {
-  uint64_t lrscValid;
-  uint64_t lrscAddr;
+  uint32_t lrscValid;
+  uint32_t lrscAddr;
 };
 
 struct ExecutionGuide {
   // force raise exception
   bool force_raise_exception;
-  uint64_t exception_num;
-  uint64_t mtval;
-  uint64_t stval;
+  uint32_t exception_num;
+  uint32_t mtval;
+  uint32_t stval;
   // force set jump target
   bool force_set_jump_target;
-  uint64_t jump_target;
+  uint32_t jump_target;
 };
 
 typedef struct DynamicConfig {

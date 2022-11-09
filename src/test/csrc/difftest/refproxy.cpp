@@ -74,10 +74,10 @@ NemuProxy::NemuProxy(int coreid, size_t ram_size = 0) {
   update_config = (void (*)(void *))dlsym(handle, "update_dynamic_config");
   check_and_assert(update_config);
 
-  store_commit = (int (*)(uint64_t*, uint64_t*, uint8_t*))dlsym(handle, "difftest_store_commit");
+  store_commit = (int (*)(uint32_t*, uint32_t*, uint8_t*))dlsym(handle, "difftest_store_commit");
   check_and_assert(store_commit);
 
-  raise_intr = (void (*)(uint64_t))dlsym(handle, "difftest_raise_intr");
+  raise_intr = (void (*)(uint32_t))dlsym(handle, "difftest_raise_intr");
   check_and_assert(raise_intr);
 
   isa_reg_display = (void (*)(void))dlsym(handle, "isa_reg_display");
@@ -89,7 +89,7 @@ NemuProxy::NemuProxy(int coreid, size_t ram_size = 0) {
   set_ramsize = (void (*)(size_t size)) dlsym(handle, "difftest_set_ramsize");
   check_and_assert(set_ramsize);
 
-  query = (void (*)(void*, uint64_t))dlsym(handle, "difftest_query_ref");
+  query = (void (*)(void*, uint32_t))dlsym(handle, "difftest_query_ref");
 #ifdef ENABLE_RUNHEAD
   check_and_assert(query);
 #endif

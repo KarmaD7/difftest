@@ -127,7 +127,7 @@ int Runahead::do_instr_runahead(){
 // Return checkpoint pid
 // Return -1 if no checkpoint is needed (inst is not jump)
 // Will raise error if the number of checkpoints exceeds limit
-pid_t Runahead::do_instr_runahead_pc_guided(uint64_t jump_target_pc){
+pid_t Runahead::do_instr_runahead_pc_guided(uint32_t jump_target_pc){
   assert(has_commit);
   // check if checkpoint list is full
   if(checkpoint_num_exceed_limit()){
@@ -148,7 +148,7 @@ pid_t Runahead::do_instr_runahead_pc_guided(uint64_t jump_target_pc){
 //
 // Note that this function will only add a checkpoint record to checkpoints deque
 // fork() and wait() affair should be done before calling this function
-void Runahead::register_checkpoint(pid_t pid, uint64_t branch_checkpoint_id, uint64_t branch_pc, bool may_replay) {
+void Runahead::register_checkpoint(pid_t pid, uint32_t branch_checkpoint_id, uint32_t branch_pc, bool may_replay) {
   // register new checkpoint
   RunaheadCheckpoint checkpoint;
   checkpoint.pid = pid;
@@ -184,7 +184,7 @@ pid_t Runahead::free_checkpoint() {
 }
 
 // Recover execuation state from checkpoint
-void Runahead::recover_checkpoint(uint64_t checkpoint_id) {
+void Runahead::recover_checkpoint(uint32_t checkpoint_id) {
   debug_print_checkpoint_list();
   assert(checkpoints.size() > 1); // Must maintain at least 1 active slave
   // pop queue until we get the same id
@@ -398,7 +398,7 @@ pid_t Runahead::request_slave_runahead() {
 // Request slave to run a inst with assigned jump target pc
 //
 // Return checkpoint pid. Checkpoint is generated before inst exec.
-pid_t Runahead::request_slave_runahead_pc_guided(uint64_t target_pc) {
+pid_t Runahead::request_slave_runahead_pc_guided(uint32_t target_pc) {
   RunaheadRequest request;
   request.message_type = RUNAHEAD_MSG_REQ_GUIDED_EXEC;
   request.target_pc = target_pc;

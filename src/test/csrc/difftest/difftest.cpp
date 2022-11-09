@@ -162,7 +162,7 @@ int Difftest::step() {
   }
 
   // swap nemu_pc and ref.csr.this_pc for comparison
-  uint64_t nemu_next_pc = ref.csr.this_pc;
+  uint32_t nemu_next_pc = ref.csr.this_pc;
   ref.csr.this_pc = nemu_this_pc;
   nemu_this_pc = nemu_next_pc;
 
@@ -171,7 +171,7 @@ int Difftest::step() {
     ref_regs_ptr[72] = dut_regs_ptr[72];
   }
 
-  if (memcmp(dut_regs_ptr, ref_regs_ptr, DIFFTEST_NR_REG * sizeof(uint64_t))) {
+  if (memcmp(dut_regs_ptr, ref_regs_ptr, DIFFTEST_NR_REG * sizeof(uint32_t))) {
     display();
     for (int i = 0; i < DIFFTEST_NR_REG; i ++) {
       if (dut_regs_ptr[i] != ref_regs_ptr[i]) {
@@ -220,11 +220,11 @@ void Difftest::do_instr_commit(int i) {
 
   // store the writeback info to debug array
 #ifdef BASIC_DIFFTEST_ONLY
-  uint64_t commit_pc = ref.csr.this_pc;
-  uint64_t commit_instr = 0x0;
+  uint32_t commit_pc = ref.csr.this_pc;
+  uint32_t commit_instr = 0x0;
 #else
-  uint64_t commit_pc = dut.commit[i].pc;
-  uint64_t commit_instr = dut.commit[i].inst;
+  uint32_t commit_pc = dut.commit[i].pc;
+  uint32_t commit_instr = dut.commit[i].inst;
 #endif
   state->record_inst(commit_pc, commit_instr, (dut.commit[i].rfwen | dut.commit[i].fpwen), dut.commit[i].wdest, get_commit_data(i), dut.commit[i].skip != 0);
 
@@ -282,7 +282,7 @@ void Difftest::do_first_instr_commit() {
     proxy->load_flash_bin(get_flash_path(), get_flash_size());
     proxy->memcpy(PMEM_BASE, get_img_start(), get_img_size(), DIFFTEST_TO_REF);
     // Use a temp variable to store the current pc of dut
-    uint64_t dut_this_pc = dut.csr.this_pc;
+    uint32_t dut_this_pc = dut.csr.this_pc;
     // NEMU should always start at FIRST_INST_ADDRESS
     dut.csr.this_pc = FIRST_INST_ADDRESS;
     proxy->regcpy(dut_regs_ptr, DIFFTEST_TO_REF);
@@ -324,7 +324,7 @@ int Difftest::do_drefill_check() {
     return do_refill_check(DCACHEID);   
 }
 
-void dumpGoldenMem(char* banner, uint64_t addr, uint64_t time) {
+void dumpGoldenMem(char* banner, uint32_t addr, uint64_t time) {
 #ifdef DEBUG_REFILL
   char buf[512];
   if (addr == 0) {

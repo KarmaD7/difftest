@@ -27,17 +27,17 @@ void MemdepWatchWindow::commit_store(){
   store_inflight.pop_front();
 }
 
-void MemdepWatchWindow::commit_load(uint64_t pc){
+void MemdepWatchWindow::commit_load(uint32_t pc){
   assert(pc == load_inflight.front().pc);
   commit_load();
 }
 
-void MemdepWatchWindow::commit_store(uint64_t pc){
+void MemdepWatchWindow::commit_store(uint32_t pc){
   assert(pc == store_inflight.front().pc);
   commit_store();
 }
 
-void MemdepWatchWindow::watch_load(uint64_t pc, uint64_t vaddr){
+void MemdepWatchWindow::watch_load(uint32_t pc, uint32_t vaddr){
   MemInstInfo load;
   load.pc = pc;
   load.vaddr = vaddr;
@@ -48,7 +48,7 @@ void MemdepWatchWindow::watch_load(uint64_t pc, uint64_t vaddr){
   runahead_debug("Memdep watcher: start to watch load %lx, vaddr %lx\n", pc, vaddr);
 }
 
-void MemdepWatchWindow::watch_store(uint64_t pc, uint64_t vaddr){
+void MemdepWatchWindow::watch_store(uint32_t pc, uint32_t vaddr){
   MemInstInfo store;
   store.pc = pc;
   store.vaddr = vaddr;
@@ -59,7 +59,7 @@ void MemdepWatchWindow::watch_store(uint64_t pc, uint64_t vaddr){
   runahead_debug("Memdep watcher: start to watch store %lx, vaddr %lx\n", pc, vaddr);
 }
 
-bool MemdepWatchWindow::query_load_store_dep(uint64_t load_pc, uint64_t load_vaddr){
+bool MemdepWatchWindow::query_load_store_dep(uint32_t load_pc, uint32_t load_vaddr){
   runahead_debug("Memdep watcher: detecting dependency for load %lx, vaddr %lx\n", load_pc, load_vaddr);
   bool has_dependency= false;
   for(auto i: store_inflight){

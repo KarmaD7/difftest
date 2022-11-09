@@ -39,7 +39,7 @@ void init_goldenmem() {
   ref_misc_put_gmaddr(pmem);
 }
 
-void update_goldenmem(paddr_t addr, void *data, uint64_t mask, int len) {
+void update_goldenmem(paddr_t addr, void *data, uint32_t mask, int len) {
   uint8_t *dataArray = (uint8_t*)data;
   for (int i = 0; i < len; i++) {
 		if (((mask >> i) & 1) != 0) {
@@ -48,8 +48,8 @@ void update_goldenmem(paddr_t addr, void *data, uint64_t mask, int len) {
   }
 }
 
-void read_goldenmem(paddr_t addr, void *data, uint64_t len) {
-  *(uint64_t*)data = paddr_read(addr, len);
+void read_goldenmem(paddr_t addr, void *data, uint32_t len) {
+  *(uint32_t*)data = paddr_read(addr, len);
 }
 
 bool in_pmem(paddr_t addr) {

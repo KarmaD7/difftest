@@ -24,16 +24,16 @@
 #include "ram.h"
 #include "common.h"
 
-typedef uint64_t paddr_t;
-typedef uint64_t word_t;
+typedef uint32_t paddr_t;
+typedef uint32_t word_t;
 
 #define PMEM_SIZE EMU_RAM_SIZE
 
 extern uint8_t* pmem;
 
 void init_goldenmem();
-void update_goldenmem(paddr_t addr, void *data, uint64_t mask, int len);
-void read_goldenmem(paddr_t addr, void *data, uint64_t len);
+void update_goldenmem(paddr_t addr, void *data, uint32_t mask, int len);
+void read_goldenmem(paddr_t addr, void *data, uint32_t len);
 
 /* convert the guest physical address in the guest program to host virtual address in NEMU */
 void* guest_to_host(paddr_t addr);
