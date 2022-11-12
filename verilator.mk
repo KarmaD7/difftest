@@ -51,7 +51,6 @@ endif
 VERILATOR_4_210 := $(shell expr `verilator --version | cut -f3 -d.` \>= 210)
 ifeq ($(VERILATOR_4_210),1)
 EMU_CXXFLAGS += -DVERILATOR_4_210
-VEXTRA_FLAGS += --instr-count-dpi 1
 endif
 
 # Verilator trace support
@@ -107,7 +106,10 @@ VERILATOR_FLAGS =                   \
   --assert                          \
   --stats-vars                      \
   --output-split 30000              \
-  --output-split-cfuncs 30000
+  --output-split-cfuncs 30000       \
+  -I../thinpad_top.srcs/sim_1/new   \
+  -I../thinpad_top.srcs/sources_1/new  \
+  -v ../thinpad_top.srcs/sources_1/new/async.v
 
 EMU_MK := $(BUILD_DIR)/emu-compile/V$(EMU_TOP).mk
 EMU_DEPS := $(EMU_VFILES) $(EMU_CXXFILES)
